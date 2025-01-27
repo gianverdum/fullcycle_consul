@@ -9,7 +9,7 @@ services:
       consul agent -server -bootstrap-expect=3 -node=consulserver01
       -bind=0.0.0.0 -data-dir=/consul/data -config-dir=/etc/consul.d
       -retry-join=consulserver02 -retry-join=consulserver03
-      -encrypt=9rVzKJaGxl3I3Twx0kw2LW6x3GQJpSfn
+      -encrypt=${CONSUL_ENCRYPT_KEY}
     volumes:
       - ./servers/server01:/etc/consul.d
     ports:
@@ -23,7 +23,7 @@ services:
       consul agent -server -node=consulserver02
       -bind=0.0.0.0 -data-dir=/consul/data -config-dir=/etc/consul.d
       -retry-join=consulserver01 -retry-join=consulserver03
-      -encrypt=9rVzKJaGxl3I3Twx0kw2LW6x3GQJpSfn
+      -encrypt=${CONSUL_ENCRYPT_KEY}
     volumes:
       - ./servers/server02:/etc/consul.d
 
@@ -35,7 +35,7 @@ services:
       consul agent -server -node=consulserver03
       -bind=0.0.0.0 -data-dir=/consul/data -config-dir=/etc/consul.d
       -retry-join=consulserver01 -retry-join=consulserver02
-      -encrypt=9rVzKJaGxl3I3Twx0kw2LW6x3GQJpSfn
+      -encrypt=${CONSUL_ENCRYPT_KEY}
     volumes:
       - ./servers/server03:/etc/consul.d
 
@@ -47,7 +47,7 @@ services:
       consul agent -node=consulclient01
       -data-dir=/consul/data -config-dir=/etc/consul.d
       -retry-join=consulserver01 -retry-join=consulserver02 -retry-join=consulserver03
-      -encrypt=9rVzKJaGxl3I3Twx0kw2LW6x3GQJpSfn
+      -encrypt=${CONSUL_ENCRYPT_KEY}
     volumes:
       - ./clients/consul01:/etc/consul.d
 
@@ -59,6 +59,6 @@ services:
       consul agent -node=consulclient02
       -data-dir=/consul/data -config-dir=/etc/consul.d
       -retry-join=consulserver01 -retry-join=consulserver02 -retry-join=consulserver03
-      -encrypt=9rVzKJaGxl3I3Twx0kw2LW6x3GQJpSfn
+      -encrypt=${CONSUL_ENCRYPT_KEY}
     volumes:
       - ./clients/consul02:/etc/consul.d

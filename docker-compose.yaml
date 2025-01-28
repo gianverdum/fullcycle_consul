@@ -5,11 +5,7 @@ services:
     image: consul:1.10
     container_name: consulserver01
     hostname: consulserver01
-    command: >
-      consul agent -server -bootstrap-expect=3 -node=consulserver01
-      -bind=0.0.0.0 -data-dir=/consul/data -config-dir=/etc/consul.d
-      -retry-join=consulserver02 -retry-join=consulserver03
-      -encrypt=${CONSUL_ENCRYPT_KEY}
+    command: ["consul", "agent", "-config-dir=/etc/consul.d"]
     volumes:
       - ./servers/server01:/etc/consul.d
     ports:
@@ -19,11 +15,7 @@ services:
     image: consul:1.10
     container_name: consulserver02
     hostname: consulserver02
-    command: >
-      consul agent -server -node=consulserver02
-      -bind=0.0.0.0 -data-dir=/consul/data -config-dir=/etc/consul.d
-      -retry-join=consulserver01 -retry-join=consulserver03
-      -encrypt=${CONSUL_ENCRYPT_KEY}
+    command: ["consul", "agent", "-config-dir=/etc/consul.d"]
     volumes:
       - ./servers/server02:/etc/consul.d
 
@@ -31,11 +23,7 @@ services:
     image: consul:1.10
     container_name: consulserver03
     hostname: consulserver03
-    command: >
-      consul agent -server -node=consulserver03
-      -bind=0.0.0.0 -data-dir=/consul/data -config-dir=/etc/consul.d
-      -retry-join=consulserver01 -retry-join=consulserver02
-      -encrypt=${CONSUL_ENCRYPT_KEY}
+    command: ["consul", "agent", "-config-dir=/etc/consul.d"]
     volumes:
       - ./servers/server03:/etc/consul.d
 
@@ -47,7 +35,6 @@ services:
       consul agent -node=consulclient01
       -data-dir=/consul/data -config-dir=/etc/consul.d
       -retry-join=consulserver01 -retry-join=consulserver02 -retry-join=consulserver03
-      -encrypt=${CONSUL_ENCRYPT_KEY}
     volumes:
       - ./clients/consul01:/etc/consul.d
 
@@ -59,6 +46,5 @@ services:
       consul agent -node=consulclient02
       -data-dir=/consul/data -config-dir=/etc/consul.d
       -retry-join=consulserver01 -retry-join=consulserver02 -retry-join=consulserver03
-      -encrypt=${CONSUL_ENCRYPT_KEY}
     volumes:
       - ./clients/consul02:/etc/consul.d

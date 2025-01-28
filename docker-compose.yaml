@@ -5,46 +5,60 @@ services:
     image: consul:1.10
     container_name: consulserver01
     hostname: consulserver01
-    command: ["consul", "agent", "-config-dir=/etc/consul.d"]
+    command: ["consul", "agent", "-config-dir=/etc/consul.d", "-encrypt", "${CONSUL_ENCRYPT_KEY}"]
     volumes:
       - ./servers/server01:/etc/consul.d
     ports:
       - "8500:8500"
+    env_file:
+      - .env
+    environment:
+      - CONSUL_ENCRYPT_KEY=${CONSUL_ENCRYPT_KEY}
 
   consulserver02:
     image: consul:1.10
     container_name: consulserver02
     hostname: consulserver02
-    command: ["consul", "agent", "-config-dir=/etc/consul.d"]
+    command: ["consul", "agent", "-config-dir=/etc/consul.d", "-encrypt", "${CONSUL_ENCRYPT_KEY}"]
     volumes:
       - ./servers/server02:/etc/consul.d
+    env_file:
+      - .env
+    environment:
+      - CONSUL_ENCRYPT_KEY=${CONSUL_ENCRYPT_KEY}
 
   consulserver03:
     image: consul:1.10
     container_name: consulserver03
     hostname: consulserver03
-    command: ["consul", "agent", "-config-dir=/etc/consul.d"]
+    command: ["consul", "agent", "-config-dir=/etc/consul.d", "-encrypt", "${CONSUL_ENCRYPT_KEY}"]
     volumes:
       - ./servers/server03:/etc/consul.d
+    env_file:
+      - .env
+    environment:
+      - CONSUL_ENCRYPT_KEY=${CONSUL_ENCRYPT_KEY}
 
   consulclient01:
     image: consul:1.10
     container_name: consulclient01
     hostname: consulclient01
-    command: >
-      consul agent -node=consulclient01
-      -data-dir=/consul/data -config-dir=/etc/consul.d
-      -retry-join=consulserver01 -retry-join=consulserver02 -retry-join=consulserver03
+    command: ["consul", "agent", "-config-dir=/etc/consul.d", "-encrypt", "${CONSUL_ENCRYPT_KEY}"]
     volumes:
       - ./clients/consul01:/etc/consul.d
+    env_file:
+      - .env
+    environment:
+      - CONSUL_ENCRYPT_KEY=${CONSUL_ENCRYPT_KEY}
 
   consulclient02:
     image: consul:1.10
     container_name: consulclient02
     hostname: consulclient02
-    command: >
-      consul agent -node=consulclient02
-      -data-dir=/consul/data -config-dir=/etc/consul.d
-      -retry-join=consulserver01 -retry-join=consulserver02 -retry-join=consulserver03
+    command: ["consul", "agent", "-config-dir=/etc/consul.d", "-encrypt", "${CONSUL_ENCRYPT_KEY}"]
     volumes:
       - ./clients/consul02:/etc/consul.d
+    env_file:
+      - .env
+    environment:
+      - CONSUL_ENCRYPT_KEY=${CONSUL_ENCRYPT_KEY}

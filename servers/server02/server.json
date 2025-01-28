@@ -3,8 +3,9 @@
     "bind_addr": "0.0.0.0",
     "bootstrap_expect": 3,
     "data_dir": "/tmp",
+    "node_name": "consulserver02",
     "retry_join": [
-        "consulserver01",
-        "consulserver03"
-    ]
+        "consulserver01"
+    ],
+    "encrypt": "${CONSUL_ENCRYPT_KEY}"
 }

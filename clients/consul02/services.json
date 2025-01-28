@@ -1,10 +1,21 @@
 {
-    "service": {
-        "id": "nginx2",
-        "name": "nginx",
-        "tags": [
-            "web"
-        ],
-        "port": 80
-    }
+    "node_name": "consulclient02",
+    "data_dir": "/consul/data",
+    "bind_addr": "0.0.0.0",
+    "encrypt": "${CONSUL_ENCRYPT_KEY}",
+    "retry_join": [
+        "consulserver01",
+        "consulserver02",
+        "consulserver03"
+    ],
+    "services": [
+        {
+            "id": "nginx2",
+            "name": "nginx",
+            "tags": [
+                "web"
+            ],
+            "port": 80
+        }
+    ]
 }
